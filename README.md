@@ -1,68 +1,68 @@
-# Aplikasi Exam CBT Berbasis Web
+# Web-Based Exam CBT Application
 
-Aplikasi Computer Based Test (CBT) untuk ujian online dengan fitur lengkap untuk Admin, Guru, dan Siswa.
+A Computer Based Test (CBT) application for online exams with complete features for Admin, Teachers, and Students.
 
-## 📋 Spesifikasi Teknis
+## 📋 Technical Specifications
 
 - **Environment**: Laragon 6.0 / XAMPP
 - **Web Server**: Apache httpd-2.4.54
 - **Database**: MySQL 8.0.30
-- **Bahasa Pemrograman**: PHP Native
+- **Programming Language**: PHP Native
 - **Frontend**: HTML5, CSS3, JavaScript
 
-## 🚀 Fitur Aplikasi
+## 🚀 Application Features
 
-### 1. Login Multi-Role
-- ✅ Login Admin
-- ✅ Login Guru  
-- ✅ Login Siswa
+### 1. Multi-Role Login
+- ✅ Admin Login
+- ✅ Teacher Login  
+- ✅ Student Login
 
-### 2. Fitur Admin
-- Dashboard statistik
-- Manajemen User (Admin, Guru, Siswa)
-- Manajemen Mata Pelajaran
-- Monitoring semua ujian dan soal
+### 2. Admin Features
+- Statistics dashboard
+- User Management (Admin, Teacher, Student)
+- Subject Management
+- Monitoring all exams and questions
 
-### 3. Fitur Guru
-- Dashboard statistik
-- Bank Soal (CRUD)
-- **Import Soal dari DOCX/TXT** dengan format template
-- Soal Pilihan Ganda (A, B, C, D, E)
-- Soal Essay
-- Manajemen Ujian
-- Penilaian Siswa
+### 3. Teacher Features
+- Statistics dashboard
+- Question Bank (CRUD)
+- **Import Questions from DOCX/TXT** with template format
+- Multiple Choice Questions (A, B, C, D, E)
+- Essay Questions
+- Exam Management
+- Student Grading
 
-### 4. Fitur Siswa
-- Dashboard ujian
-- Daftar ujian tersedia
-- Kerjakan ujian online
-- Timer ujian
-- Lihat nilai
+### 4. Student Features
+- Exam dashboard
+- Available exam list
+- Take online exams
+- Exam timer
+- View grades
 
-## 📁 Struktur Folder
+## 📁 Folder Structure
 
 ```
 exam-cbt/
-├── admin/                  # Panel Admin
+├── admin/                  # Admin Panel
 │   └── dashboard.php
 ├── assets/
 │   ├── css/
 │   ├── js/
-│   └── uploads/           # Folder upload file
+│   └── uploads/           # Upload folder
 ├── config/
-│   ├── config.php         # Konfigurasi aplikasi
-│   └── database.sql       # Script database
-├── guru/                  # Panel Guru
+│   ├── config.php         # Application configuration
+│   └── database.sql       # Database script
+├── guru/                  # Teacher Panel
 │   ├── dashboard.php
 │   ├── soal.php
 │   └── import-soal.php
 ├── imports/
-│   ├── SoalImporter.php   # Parser import soal
-│   └── template.txt       # Template format soal
+│   ├── SoalImporter.php   # Question import parser
+│   └── template.txt       # Question format template
 ├── models/
-│   ├── Auth.php           # Model autentikasi
-│   └── Soal.php           # Model soal
-├── siswa/                 # Panel Siswa
+│   ├── Auth.php           # Authentication model
+│   └── Soal.php           # Question model
+├── siswa/                 # Student Panel
 │   └── dashboard.php
 ├── views/
 │   └── layouts/           # Layout templates
@@ -70,30 +70,30 @@ exam-cbt/
 │       ├── admin.php
 │       ├── guru.php
 │       └── siswa.php
-├── login.php              # Halaman login
+├── login.php              # Login page
 └── index.php              # Entry point
 ```
 
-## 🛠️ Instalasi
+## 🛠️ Installation
 
-### 1. Persiapan Environment
+### 1. Environment Preparation
 
-Pastikan Anda telah menginstall:
-- Laragon 6.0 atau XAMPP
+Make sure you have installed:
+- Laragon 6.0 or XAMPP
 - MySQL 8.0.30
 
-### 2. Setup Database
+### 2. Database Setup
 
-1. Buka phpMyAdmin (http://localhost/phpmyadmin)
-2. Buat database baru bernama `exam_cbt`
+1. Open phpMyAdmin (http://localhost/phpmyadmin)
+2. Create a new database named `exam_cbt`
 3. Import file `config/database.sql`
-4. Atau jalankan SQL script di `config/database.sql`
+4. Or run the SQL script in `config/database.sql`
 
-### 3. Konfigurasi Aplikasi
+### 3. Application Configuration
 
-1. Copy folder `exam-cbt` ke dalam folder `www` (Laragon) atau `htdocs` (XAMPP)
-2. Buka file `config/config.php`
-3. Sesuaikan konfigurasi jika diperlukan:
+1. Copy the `exam-cbt` folder into the `www` folder (Laragon) or `htdocs` (XAMPP)
+2. Open the file `config/config.php`
+3. Adjust configuration if needed:
    ```php
    define('DB_HOST', 'localhost');
    define('DB_USER', 'root');
@@ -102,67 +102,67 @@ Pastikan Anda telah menginstall:
    define('BASE_URL', 'http://localhost/exam-cbt');
    ```
 
-### 4. Akses Aplikasi
+### 4. Access the Application
 
-Buka browser dan akses:
+Open your browser and access:
 ```
 http://localhost/exam-cbt
 ```
 
 ## 👤 Default Login Credentials
 
-| Role   | Username | Password |
-|--------|----------|----------|
-| Admin  | admin    | password |
-| Guru   | guru1    | password |
-| Siswa  | siswa1   | password |
+| Role    | Username | Password |
+|---------|----------|----------|
+| Admin   | admin    | password |
+| Teacher | guru1    | password |
+| Student | siswa1   | password |
 
-## 📝 Format Import Soal
+## 📝 Question Import Format
 
-### Format File TXT/DOCX
+### TXT/DOCX File Format
 
 ```
-[JENIS_SOAL:PG]
-[MAPEL:Matematika]
-[BOBOT:1]
-PERTANYAAN: Berapakah hasil dari 5 + 3?
+[QUESTION_TYPE:MC]
+[SUBJECT:Mathematics]
+[WEIGHT:1]
+QUESTION: What is the result of 5 + 3?
 A. 5
 B. 6
 C. 7
 D. 8
 E. 9
-KUNCI: D
+ANSWER: D
 
-[JENIS_SOAL:ESSAY]
-[MAPEL:Bahasa Indonesia]
-[BOBOT:2]
-PERTANYAAN: Jelaskan pengertian dari puisi bebas!
-KUNCI: Puisi bebas adalah puisi yang tidak terikat oleh aturan-aturan seperti rima, irama, dan jumlah baris.
+[QUESTION_TYPE:ESSAY]
+[SUBJECT:Indonesian Language]
+[WEIGHT:2]
+QUESTION: Explain the definition of free verse poetry!
+ANSWER: Free verse poetry is poetry that is not bound by rules such as rhyme, rhythm, and number of lines.
 ```
 
-### Keterangan Format:
-- `JENIS_SOAL`: PG untuk Pilihan Ganda, ESSAY untuk Essay
-- `MAPEL`: Nama mata pelajaran
-- `BOBOT`: Nilai/bobot soal (default: 1)
-- Untuk PG, wajib ada opsi A sampai E
-- `KUNCI`: Jawaban benar (A/B/C/D/E untuk PG)
-- Pisahkan setiap soal dengan garis kosong
+### Format Description:
+- `QUESTION_TYPE`: MC for Multiple Choice, ESSAY for Essay
+- `SUBJECT`: Subject name
+- `WEIGHT`: Score/weight of the question (default: 1)
+- For MC, options A through E are required
+- `ANSWER`: Correct answer (A/B/C/D/E for MC)
+- Separate each question with a blank line
 
-Template lengkap tersedia di: `imports/template.txt`
+Complete template available at: `imports/template.txt`
 
-## 🎯 Jenis Soal yang Didukung
+## 🎯 Supported Question Types
 
-### 1. Pilihan Ganda (A, B, C, D, E)
-- Sistem penilaian otomatis
-- Kunci jawaban tunggal
+### 1. Multiple Choice (A, B, C, D, E)
+- Automatic grading system
+- Single correct answer
 
 ### 2. Essay
-- Penilaian manual oleh guru
-- Bobot nilai dapat disesuaikan
+- Manual grading by teacher
+- Adjustable score weight
 
-## 🔒 Keamanan
+## 🔒 Security
 
-- Password di-hash menggunakan bcrypt
+- Password hashed using bcrypt
 - Session management
 - SQL Injection protection (PDO Prepared Statements)
 - XSS Protection (htmlspecialchars)
@@ -170,8 +170,8 @@ Template lengkap tersedia di: `imports/template.txt`
 
 ## 📄 License
 
-Aplikasi ini dibuat untuk keperluan pembelajaran dan dapat dikembangkan lebih lanjut sesuai kebutuhan.
+This application is created for educational purposes and can be further developed according to needs.
 
 ---
 
-**Dibuat dengan ❤️ untuk Pendidikan Indonesia**
+**Made with ❤️ for Indonesian Education**

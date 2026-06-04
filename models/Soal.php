@@ -9,11 +9,11 @@ class Soal {
     }
     
     /**
-     * Get semua soal berdasarkan mapel
+     * Get all questions by subject
      */
     public function getByMapel($mapelId) {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM bank_soal WHERE mapel_id = ? ORDER BY created_at DESC");
+            $stmt = $this->db->prepare("SELECT * FROM questions WHERE subject_id = ? ORDER BY created_at DESC");
             $stmt->execute([$mapelId]);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -22,11 +22,11 @@ class Soal {
     }
     
     /**
-     * Get soal by ID
+     * Get question by ID
      */
     public function getById($id) {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM bank_soal WHERE id = ?");
+            $stmt = $this->db->prepare("SELECT * FROM questions WHERE id = ?");
             $stmt->execute([$id]);
             return $stmt->fetch();
         } catch (PDOException $e) {
@@ -35,11 +35,11 @@ class Soal {
     }
     
     /**
-     * Create soal baru
+     * Create new question
      */
     public function create($data) {
         try {
-            $sql = "INSERT INTO bank_soal (mapel_id, guru_id, jenis_soal, pertanyaan, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e, kunci_jawaban, bobot_nilai) 
+            $sql = "INSERT INTO questions (subject_id, teacher_id, question_type, question_text, option_a, option_b, option_c, option_d, option_e, answer_key, weight) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -62,14 +62,14 @@ class Soal {
     }
     
     /**
-     * Update soal
+     * Update question
      */
     public function update($id, $data) {
         try {
-            $sql = "UPDATE bank_soal SET 
-                    mapel_id = ?, jenis_soal = ?, pertanyaan = ?, 
-                    opsi_a = ?, opsi_b = ?, opsi_c = ?, opsi_d = ?, opsi_e = ?, 
-                    kunci_jawaban = ?, bobot_nilai = ? 
+            $sql = "UPDATE questions SET 
+                    subject_id = ?, question_type = ?, question_text = ?, 
+                    option_a = ?, option_b = ?, option_c = ?, option_d = ?, option_e = ?, 
+                    answer_key = ?, weight = ? 
                     WHERE id = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -92,11 +92,11 @@ class Soal {
     }
     
     /**
-     * Delete soal
+     * Delete question
      */
     public function delete($id) {
         try {
-            $stmt = $this->db->prepare("DELETE FROM bank_soal WHERE id = ?");
+            $stmt = $this->db->prepare("DELETE FROM questions WHERE id = ?");
             $stmt->execute([$id]);
             return true;
         } catch (PDOException $e) {
@@ -105,14 +105,14 @@ class Soal {
     }
     
     /**
-     * Import soal dari array
+     * Import questions from array
      */
     public function importSoal($soalArray, $guruId) {
         $success = 0;
         $failed = 0;
         
         foreach ($soalArray as $soal) {
-            // Cari atau buat mapel
+            // Find or create subject
             $mapelId = $this->getOrCreateMapel($soal['mapel'], $guruId);
             
             if ($mapelId) {
@@ -144,12 +144,12 @@ class Soal {
     }
     
     /**
-     * Get or create mata pelajaran
+     * Get or create subject
      */
     private function getOrCreateMapel($namaMapel, $guruId) {
         try {
-            // Cek apakah mapel sudah ada
-            $stmt = $this->db->prepare("SELECT id FROM mata_pelajaran WHERE nama_mapel = ? OR kode_mapel = ?");
+            // Check if subject exists
+            $stmt = $this->db->prepare("SELECT id FROM subjects WHERE subject_name = ? OR subject_code = ?");
             $kodeMapel = strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $namaMapel), 0, 3)) . '-' . time();
             $stmt->execute([$namaMapel, $kodeMapel]);
             $mapel = $stmt->fetch();
@@ -158,8 +158,8 @@ class Soal {
                 return $mapel['id'];
             }
             
-            // Buat mapel baru
-            $stmt = $this->db->prepare("INSERT INTO mata_pelajaran (kode_mapel, nama_mapel, guru_id) VALUES (?, ?, ?)");
+            // Create new subject
+            $stmt = $this->db->prepare("INSERT INTO subjects (subject_code, subject_name, teacher_id) VALUES (?, ?, ?)");
             $stmt->execute([$kodeMapel, $namaMapel, $guruId]);
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
@@ -168,15 +168,15 @@ class Soal {
     }
     
     /**
-     * Get semua mata pelajaran
+     * Get all subjects
      */
     public function getMapel($guruId = null) {
         try {
             if ($guruId) {
-                $stmt = $this->db->prepare("SELECT * FROM mata_pelajaran WHERE guru_id = ? OR guru_id IS NULL ORDER BY nama_mapel");
+                $stmt = $this->db->prepare("SELECT * FROM subjects WHERE teacher_id = ? OR teacher_id IS NULL ORDER BY subject_name");
                 $stmt->execute([$guruId]);
             } else {
-                $stmt = $this->db->query("SELECT * FROM mata_pelajaran ORDER BY nama_mapel");
+                $stmt = $this->db->query("SELECT * FROM subjects ORDER BY subject_name");
             }
             return $stmt->fetchAll();
         } catch (PDOException $e) {

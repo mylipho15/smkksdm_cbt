@@ -1,27 +1,27 @@
 <?php
 /**
- * Parser untuk import soal dari file DOCX dan TXT
+ * Parser for importing questions from DOCX and TXT files
  */
 
 class SoalImporter {
     
     /**
-     * Import dari file TXT
-     * Format TXT:
-     * [JENIS_SOAL:PG|ESSAY]
-     * [MAPEL:Nama Mapel]
-     * [BOBOT:1]
-     * PERTANYAAN: Isi pertanyaan di sini
-     * A. Opsi A
-     * B. Opsi B
-     * C. Opsi C
-     * D. Opsi D
-     * E. Opsi E
-     * KUNCI: A
+     * Import from TXT file
+     * TXT Format:
+     * [QUESTION_TYPE:MC|ESSAY]
+     * [SUBJECT:Subject Name]
+     * [WEIGHT:1]
+     * QUESTION: Question content here
+     * A. Option A
+     * B. Option B
+     * C. Option C
+     * D. Option D
+     * E. Option E
+     * ANSWER: A
      */
     public static function importFromTXT($filePath) {
         if (!file_exists($filePath)) {
-            return ['success' => false, 'message' => 'File tidak ditemukan'];
+            return ['success' => false, 'message' => 'File not found'];
         }
         
         $content = file_get_contents($filePath);
@@ -41,16 +41,16 @@ class SoalImporter {
             }
             
             // Parse metadata
-            if (preg_match('/\[JENIS_SOAL:(PG|ESSAY|pilihan_ganda|essay)\]/i', $line, $matches)) {
+            if (preg_match('/\[QUESTION_TYPE:(MC|ESSAY|pilihan_ganda|essay)\]/i', $line, $matches)) {
                 $jenis = strtoupper($matches[1]);
-                $currentSoal['jenis_soal'] = ($jenis == 'PG') ? 'pilihan_ganda' : 'essay';
-            } elseif (preg_match('/\[MAPEL:(.+?)\]/i', $line, $matches)) {
+                $currentSoal['jenis_soal'] = ($jenis == 'MC') ? 'pilihan_ganda' : 'essay';
+            } elseif (preg_match('/\[SUBJECT:(.+?)\]/i', $line, $matches)) {
                 $currentSoal['mapel'] = trim($matches[1]);
-            } elseif (preg_match('/\[BOBOT:(\d+)\]/i', $line, $matches)) {
+            } elseif (preg_match('/\[WEIGHT:(\d+)\]/i', $line, $matches)) {
                 $currentSoal['bobot_nilai'] = (int)$matches[1];
-            } elseif (preg_match('/^KUNCI:\s*([A-E])/i', $line, $matches)) {
+            } elseif (preg_match('/^ANSWER:\s*([A-E])/i', $line, $matches)) {
                 $currentSoal['kunci_jawaban'] = strtoupper($matches[1]);
-            } elseif (preg_match('/^PERTANYAAN:\s*(.+)/i', $line, $matches)) {
+            } elseif (preg_match('/^QUESTION:\s*(.+)/i', $line, $matches)) {
                 $currentSoal['pertanyaan'] = trim($matches[1]);
             } elseif (preg_match('/^A\.\s*(.+)/i', $line, $matches)) {
                 $currentSoal['opsi_a'] = trim($matches[1]);
@@ -64,7 +64,7 @@ class SoalImporter {
                 $currentSoal['opsi_e'] = trim($matches[1]);
             } elseif (!isset($currentSoal['pertanyaan']) && !preg_match('/^\[/',$line)) {
                 $currentSoal['pertanyaan'] = $line;
-            } elseif (isset($currentSoal['pertanyaan']) && !isset($currentSoal['opsi_a']) && !preg_match('/^[A-E]\./i', $line) && !preg_match('/^KUNCI:/i', $line)) {
+            } elseif (isset($currentSoal['pertanyaan']) && !isset($currentSoal['opsi_a']) && !preg_match('/^[A-E]\./i', $line) && !preg_match('/^ANSWER:/i', $line)) {
                 $currentSoal['pertanyaan'] .= ' ' . $line;
             }
         }
@@ -78,17 +78,17 @@ class SoalImporter {
     }
     
     /**
-     * Import dari file DOCX
-     * Format sama dengan TXT, menggunakan PHPWord jika tersedia
+     * Import from DOCX file
+     * Same format as TXT, using PHPWord if available
      */
     public static function importFromDOCX($filePath) {
         if (!file_exists($filePath)) {
-            return ['success' => false, 'message' => 'File tidak ditemukan'];
+            return ['success' => false, 'message' => 'File not found'];
         }
         
-        // Cek apakah PHPWord tersedia
+        // Check if PHPWord is available
         if (!class_exists('PhpOffice\PhpWord\IOFactory')) {
-            // Fallback: baca sebagai text biasa
+            // Fallback: read as plain text
             return self::importFromTXT($filePath);
         }
         
@@ -104,7 +104,7 @@ class SoalImporter {
                 }
             }
             
-            // Simpan ke temporary file dan parse
+            // Save to temporary file and parse
             $tempFile = tempnam(sys_get_temp_dir(), 'soal_') . '.txt';
             file_put_contents($tempFile, $text);
             $result = self::importFromTXT($tempFile);
@@ -112,46 +112,46 @@ class SoalImporter {
             
             return $result;
         } catch (Exception $e) {
-            return ['success' => false, 'message' => 'Gagal membaca file DOCX: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'Failed to read DOCX file: ' . $e->getMessage()];
         }
     }
     
     /**
-     * Generate template format import
+     * Generate import format template
      */
     public static function getTemplateFormat() {
-        return "FORMAT IMPORT SOAL
+        return "QUESTION IMPORT FORMAT
 ====================
 
-1. FORMAT TXT/DOCX:
+1. TXT/DOCX FORMAT:
 
-[JENIS_SOAL:PG]
-[MAPEL:Matematika]
-[BOBOT:1]
-PERTANYAAN: Berapakah hasil dari 5 + 3?
+[QUESTION_TYPE:MC]
+[SUBJECT:Mathematics]
+[WEIGHT:1]
+QUESTION: What is the result of 5 + 3?
 A. 5
 B. 6
 C. 7
 D. 8
 E. 9
-KUNCI: D
+ANSWER: D
 
-[JENIS_SOAL:ESSAY]
-[MAPEL:Bahasa Indonesia]
-[BOBOT:2]
-PERTANYAAN: Jelaskan pengertian dari puisi bebas!
-KUNCI: Puisi bebas adalah puisi yang tidak terikat oleh aturan-aturan seperti rima, irama, dan jumlah baris.
+[QUESTION_TYPE:ESSAY]
+[SUBJECT:Indonesian Language]
+[WEIGHT:2]
+QUESTION: Explain the definition of free verse poetry!
+ANSWER: Free verse poetry is poetry that is not bound by rules such as rhyme, rhythm, and number of lines.
 
-2. KETERANGAN:
-- JENIS_SOAL: PG untuk Pilihan Ganda, ESSAY untuk Essay
-- MAPEL: Nama mata pelajaran
-- BOBOT: Nilai/bobot soal (default: 1)
-- Untuk PG, wajib ada opsi A sampai E
-- KUNCI: Jawaban benar (A/B/C/D/E untuk PG, atau penjelasan singkat untuk essay)
-- Pisahkan setiap soal dengan garis kosong
+2. DESCRIPTION:
+- QUESTION_TYPE: MC for Multiple Choice, ESSAY for Essay
+- SUBJECT: Subject name
+- WEIGHT: Score/weight of the question (default: 1)
+- For MC, options A through E are required
+- ANSWER: Correct answer (A/B/C/D/E for MC, or brief explanation for essay)
+- Separate each question with a blank line
 
-3. CONTOH FILE LENGKAP:
-Lihat file template di folder imports/template.txt
+3. COMPLETE EXAMPLE FILE:
+See the template file in imports/template.txt
 ";
     }
 }

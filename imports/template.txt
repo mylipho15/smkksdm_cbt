@@ -1,59 +1,60 @@
-FORMAT IMPORT SOAL
+QUESTION IMPORT FORMAT
 ====================
 
-1. FORMAT TXT/DOCX:
+1. TXT/DOCX FORMAT:
 
-[JENIS_SOAL:PG]
-[MAPEL:Matematika]
-[BOBOT:1]
-PERTANYAAN: Berapakah hasil dari 5 + 3?
+[QUESTION_TYPE:MC]
+[SUBJECT:Mathematics]
+[WEIGHT:1]
+QUESTION: What is the result of 5 + 3?
 A. 5
 B. 6
 C. 7
 D. 8
 E. 9
-KUNCI: D
+ANSWER: D
 
-[JENIS_SOAL:ESSAY]
-[MAPEL:Bahasa Indonesia]
-[BOBOT:2]
-PERTANYAAN: Jelaskan pengertian dari puisi bebas!
-KUNCI: Puisi bebas adalah puisi yang tidak terikat oleh aturan-aturan seperti rima, irama, dan jumlah baris.
+[QUESTION_TYPE:ESSAY]
+[SUBJECT:Indonesian Language]
+[WEIGHT:2]
+QUESTION: Explain the definition of free verse poetry!
+ANSWER: Free verse poetry is poetry that is not bound by rules such as rhyme, rhythm, and number of lines.
 
-2. KETERANGAN:
-- JENIS_SOAL: PG untuk Pilihan Ganda, ESSAY untuk Essay
-- MAPEL: Nama mata pelajaran
-- BOBOT: Nilai/bobot soal (default: 1)
-- Untuk PG, wajib ada opsi A sampai E
-- KUNCI: Jawaban benar (A/B/C/D/E untuk PG, atau penjelasan singkat untuk essay)
-- Pisahkan setiap soal dengan garis kosong
+2. DESCRIPTION:
+- QUESTION_TYPE: MC for Multiple Choice, ESSAY for Essay
+- SUBJECT: Subject name
+- WEIGHT: Score/weight of the question (default: 1)
+- For MC, options A through E are required
+- ANSWER: Correct answer (A/B/C/D/E for MC, or brief explanation for essay)
+- Separate each question with a blank line
 
-3. CONTOH LEBIH BANYAK SOAL:
+3. MORE EXAMPLE QUESTIONS:
 
-[JENIS_SOAL:PG]
-[MAPEL:Matematika]
-[BOBOT:1]
-PERTANYAAN: Jika x + 2 = 5, maka nilai x adalah...
+[QUESTION_TYPE:MC]
+[SUBJECT:Mathematics]
+[WEIGHT:1]
+QUESTION: If x + 2 = 5, then the value of x is...
 A. 1
 B. 2
 C. 3
 D. 4
 E. 5
-KUNCI: C
+ANSWER: C
 
-[JENIS_SOAL:PG]
-[MAPEL:IPA]
-[BOBOT:1]
-PERTANYAAN: Planet terbesar dalam tata surya kita adalah...
-A. Bumi
+[QUESTION_TYPE:MC]
+[SUBJECT:Science]
+[WEIGHT:1]
+QUESTION: The largest planet in our solar system is...
+A. Earth
 B. Mars
 C. Jupiter
-D. Saturnus
+D. Saturn
 E. Uranus
-KUNCI: C
+ANSWER: C
 
-[JENIS_SOAL:ESSAY]
-[MAPEL:Sejarah]
-[BOBOT:3]
-PERTANYAAN: Jelaskan penyebab terjadinya Perang Dunia II!
-KUNCI: Penyebab utama Perang Dunia II adalah ekspansi wilayah Jerman di bawah Hitler, kegagalan Liga Bangsa-Bangsa, dan persaingan ekonomi serta militer antar negara Eropa.
+[QUESTION_TYPE:ESSAY]
+[SUBJECT:History]
+[WEIGHT:3]
+QUESTION: Explain the causes of World War II!
+ANSWER: The main causes of World War II were Germany's territorial expansion under Hitler, the failure of the League of Nations, and economic and military competition among European nations.
+
