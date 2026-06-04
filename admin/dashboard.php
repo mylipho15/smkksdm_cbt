@@ -109,5 +109,5 @@ $totalMapel = $stmt->fetch()['total'];
 
 <?php
 $content = ob_get_clean();
-include realpath(__DIR__ . '/../../views/layouts/admin.php');
+include __DIR__ . '/../views/layouts/admin.php';
 ?>
