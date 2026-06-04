@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $opsiA = $_POST['opsi_a'] ?? null;
     $opsiB = $_POST['opsi_b'] ?? null;
     $opsiC = $_POST['opsi_c'] ?? null;
-    $opsiT = $_POST['opsi_d'] ?? null;
+    $opsiD = $_POST['opsi_d'] ?? null;
     $opsiE = $_POST['opsi_e'] ?? null;
     $kunciJawaban = $_POST['kunci_jawaban'] ?? null;
     $bobotNilai = $_POST['bobot_nilai'] ?? 1;
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'opsi_a' => $jenisSoal == 'pilihan_ganda' ? $opsiA : null,
             'opsi_b' => $jenisSoal == 'pilihan_ganda' ? $opsiB : null,
             'opsi_c' => $jenisSoal == 'pilihan_ganda' ? $opsiC : null,
-            'opsi_d' => $jenisSoal == 'pilihan_ganda' ? $opsiT : null,
+            'opsi_d' => $jenisSoal == 'pilihan_ganda' ? $opsiD : null,
             'opsi_e' => $jenisSoal == 'pilihan_ganda' ? $opsiE : null,
             'kunci_jawaban' => $kunciJawaban,
             'bobot_nilai' => $bobotNilai
