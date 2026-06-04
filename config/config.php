@@ -1,7 +1,7 @@
 <?php
 /**
- * Konfigurasi Database Exam CBT
- * Untuk Laragon/XAMPP dengan MySQL 8.0
+ * Exam CBT Database Configuration
+ * For Laragon/XAMPP with MySQL 8.0
  */
 
 define('DB_HOST', 'localhost');
@@ -10,7 +10,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'exam_cbt');
 define('DB_CHARSET', 'utf8mb4');
 
-// Base URL - Sesuaikan dengan environment Anda
+// Base URL - Adjust according to your environment
 define('BASE_URL', 'http://localhost/smkksdm_cbt');
 
 // Upload settings
@@ -22,7 +22,7 @@ ini_set('session.cookie_httponly', 1);
 session_start();
 
 /**
- * Koneksi ke Database menggunakan PDO
+ * Database connection using PDO
  */
 function getDBConnection() {
     try {
@@ -34,12 +34,12 @@ function getDBConnection() {
         ];
         return new PDO($dsn, DB_USER, DB_PASS, $options);
     } catch (PDOException $e) {
-        die("Koneksi database gagal: " . $e->getMessage());
+        die("Database connection failed: " . $e->getMessage());
     }
 }
 
 /**
- * Fungsi untuk redirect
+ * Redirect function
  */
 function redirect($url) {
     header("Location: " . $url);
@@ -47,14 +47,14 @@ function redirect($url) {
 }
 
 /**
- * Fungsi untuk mengecek apakah user sudah login
+ * Function to check if user is logged in
  */
 function isLoggedIn() {
     return isset($_SESSION['user_id']) && isset($_SESSION['user_role']);
 }
 
 /**
- * Fungsi untuk mengecek role user
+ * Function to check user role
  */
 function hasRole($roles) {
     if (!isLoggedIn()) {
@@ -69,21 +69,21 @@ function hasRole($roles) {
 }
 
 /**
- * Fungsi untuk hash password
+ * Password hash function
  */
 function hashPassword($password) {
     return password_hash($password, PASSWORD_BCRYPT);
 }
 
 /**
- * Fungsi untuk verify password
+ * Password verify function
  */
 function verifyPassword($password, $hash) {
     return password_verify($password, $hash);
 }
 
 /**
- * Fungsi untuk sanitize input
+ * Input sanitize function
  */
 function sanitize($data) {
     $data = trim($data);
@@ -93,7 +93,7 @@ function sanitize($data) {
 }
 
 /**
- * Fungsi untuk generate token acak
+ * Random token generation function
  */
 function generateToken($length = 32) {
     return bin2hex(random_bytes($length));

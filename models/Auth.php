@@ -20,16 +20,16 @@ class Auth {
             if ($user && verifyPassword($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
+                $_SESSION['full_name'] = $user['full_name'];
                 $_SESSION['user_role'] = $user['role'];
-                $_SESSION['kelas'] = $user['kelas'];
+                $_SESSION['class'] = $user['class'];
                 
                 return ['success' => true, 'role' => $user['role']];
             }
             
-            return ['success' => false, 'message' => 'Username atau password salah'];
+            return ['success' => false, 'message' => 'Username or password is incorrect'];
         } catch (PDOException $e) {
-            return ['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()];
         }
     }
     
@@ -42,7 +42,7 @@ class Auth {
     }
     
     /**
-     * Cek apakah user sudah login
+     * Check if user is logged in
      */
     public function check() {
         return isLoggedIn();
