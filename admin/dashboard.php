@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/config.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
 
 $pageTitle = 'Dashboard Admin';
 ob_start();
