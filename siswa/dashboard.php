@@ -107,7 +107,7 @@ $rataRata = $stmt->fetch()['avg'] ?? 0;
                     <span class="badge <?= $statusClass ?>"><?= $statusText ?></span>
                 </td>
                 <td>
-                    <?php if ($ujian['pesuerta_status'] == 'sedang'): ?>
+                    <?php if ($ujian['peserta_status'] == 'sedang'): ?>
                     <a href="lanjut-ujian.php?id=<?= $ujian['id'] ?>" class="btn btn-warning" style="padding: 5px 10px; font-size: 12px;">Lanjutkan</a>
                     <?php elseif ($ujian['peserta_status'] != 'selesai'): ?>
                     <a href="mulai-ujian.php?id=<?= $ujian['id'] ?>" class="btn btn-success" style="padding: 5px 10px; font-size: 12px;">Mulai</a>
